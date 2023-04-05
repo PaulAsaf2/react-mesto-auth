@@ -54,8 +54,6 @@ function Main(props) {
           })}
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }
