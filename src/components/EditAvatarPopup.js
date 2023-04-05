@@ -6,13 +6,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
 
-  const config = {
-    inputLink: "form__item form__item_type_avatar-link",
-    spanLink: "avatar-link-input-error form__input-error",
-    inputError: "form__input_type_error",
-    errorClass: "form__error_visible",
-  };
-
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateAvatar(values);
@@ -33,17 +26,16 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       validForm={isValid}
     >
       <input
-        className={`${config.inputLink} ${!isValid ? config.inputError : ""}`}
+        className={`form__item ${!isValid ? "form__input_type_error" : ""}`}
         required
         type="url"
         name="avatar"
         placeholder="Ссылка на аватар"
-        id="avatar-link-input"
         value={values.avatar || ""}
         onInput={handleChange}
       />
       <span
-        className={`${config.spanLink} ${!isValid ? config.errorClass : ""}`}
+        className={`form__input-error ${!isValid ? "form__error_visible" : ""}`}
       >
         {!isValid ? errors.avatar : ""}
       </span>

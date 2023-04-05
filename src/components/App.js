@@ -13,6 +13,9 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeleteCardPopup from "./DeleteCardPopup";
+import { Routes, Route } from "react-router-dom";
+import Register from "./Register";
+import InfoToolTip from "./InfoToolTip";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -164,16 +167,25 @@ function App() {
           <CardsContext.Provider value={cards}>
             <Header />
 
-            <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              isOpenDeleteCardPopup={handleDeleteCardClick}
-            />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Main
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    isOpenDeleteCardPopup={handleDeleteCardClick}
+                  />
+                }
+              />
+              <Route path="/sign-up" element={<Register />} />
+              <Route path="/sign-in" />
+            </Routes>
 
-            <Footer />
+            <InfoToolTip />
 
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
@@ -181,21 +193,18 @@ function App() {
               onUpdateUser={handleUpdateUser}
               isLoading={isLoading}
             />
-
             <EditAvatarPopup
               isOpen={isEditAvatarPopupOpen}
               onClose={closeAllPopups}
               onUpdateAvatar={handleUpdateAvatar}
               isLoading={isLoading}
             />
-
             <AddPlacePopup
               isOpen={isAddPlacePopupOpen}
               onClose={closeAllPopups}
               onAddPlace={handleAddPlaceSubmit}
               isLoading={isLoading}
             />
-
             <DeleteCardPopup
               isOpen={isDeleteCardPopupOpen}
               onClose={closeAllPopups}
@@ -203,7 +212,6 @@ function App() {
               onCardDelete={handleCardDelete}
               isLoading={isLoading}
             />
-
             <ImagePopup
               name="image"
               card={selectedCard}

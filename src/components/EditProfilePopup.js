@@ -8,15 +8,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const { values, handleChange, errors, isValid, setValues, resetForm } =
     useFormAndValidation();
 
-  const config = {
-    inputName: "form__item form__item_type_name",
-    spanName: "name-input-error form__input-error",
-    inputDescription: "form__item form__item_type_activity",
-    spanDescription: "activity-input-error form__input-error",
-    inputError: "form__input_type_error",
-    errorClass: "form__error_visible",
-  };
-
   useEffect(() => {
     resetForm();
     setValues({
@@ -41,40 +32,34 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       validForm={isValid}
     >
       <input
-        className={`${config.inputName} ${!isValid ? config.inputError : ""}`}
+        className={`form__item ${!isValid ? "form__input_type_error" : ""}`}
         required
         minLength="2"
         maxLength="40"
         type="text"
         name="name"
         placeholder="Имя Фамилия"
-        id="name-input"
         value={values.name || ""}
         onInput={handleChange}
       />
       <span
-        className={`${config.spanName} ${!isValid ? config.errorClass : ""}`}
+        className={`form__input-error ${!isValid ? "form__error_visible" : ""}`}
       >
         {!isValid ? errors.name : ""}
       </span>
       <input
-        className={`${config.inputDescription} ${
-          !isValid ? config.inputError : ""
-        }`}
+        className={`form__item ${!isValid ? "form__input_type_error" : ""}`}
         required
         minLength="2"
         maxLength="200"
         type="text"
         name="about"
         placeholder="Вид деятельности"
-        id="activity-input"
         value={values.about || ""}
         onInput={handleChange}
       />
       <span
-        className={`${config.spanDescription} ${
-          !isValid ? config.errorClass : ""
-        }`}
+        className={`form__input-error ${!isValid ? "form__error_visible" : ""}`}
       >
         {!isValid ? errors.about : ""}
       </span>

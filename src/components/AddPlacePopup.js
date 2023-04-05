@@ -10,15 +10,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     resetForm();
   }, [isOpen]);
 
-  const config = {
-    inputTitle: "form__item form__item_type_card-title",
-    spanTitle: "card-title-input-error form__input-error",
-    inputLink: "form__item form__item_type_link",
-    spanLink: "card-link-input-error form__input-error",
-    inputError: "form__input_type_error",
-    errorClass: "form__error_visible",
-  };
-
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace(values);
@@ -35,34 +26,32 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       validForm={isValid}
     >
       <input
-        className={`${config.inputTitle} ${!isValid ? config.inputError : ""}`}
+        className={`form__item ${!isValid ? "form__input_type_error" : ""}`}
         required
         minLength="2"
         maxLength="30"
         type="text"
         name="name"
         placeholder="Название"
-        id="card-title-input"
         onInput={handleChange}
         value={values.name || ""}
       />
       <span
-        className={`${config.spanTitle} ${!isValid ? config.errorClass : ""}`}
+        className={`form__input-error ${!isValid ? "form__error_visible" : ""}`}
       >
         {!isValid ? errors.name : ""}
       </span>
       <input
-        className={`${config.inputLink} ${!isValid ? config.inputError : ""}`}
+        className={`form__item ${!isValid ? "form__input_type_error" : ""}`}
         required
         type="url"
         name="link"
         placeholder="Ссылка на картинку"
-        id="card-link-input"
         onInput={handleChange}
         value={values.link || ""}
       />
       <span
-        className={`${config.spanLink} ${!isValid ? config.errorClass : ""}`}
+        className={`form__input-error ${!isValid ? "form__error_visible" : ""}`}
       >
         {!isValid ? errors.link : ""}
       </span>
