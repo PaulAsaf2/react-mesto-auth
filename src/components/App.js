@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
@@ -18,6 +18,8 @@ import Register from "./Register";
 import InfoToolTip from "./InfoToolTip";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import * as auth from './Authorization'
+// import { HeaderLayout, HeaderWrapper } from "./HeaderLayout";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -26,7 +28,26 @@ function App() {
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
   const [isCardIdForDelete, setIsCardIdForDelete] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState('')
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        auth.getContent(token)
+          .then((res) => {
+            if(res) {
+              setEmail(res.data.email)
+              setLoggedIn(true);
+              navigate('/main', {replace: true})
+            }
+          })
+      }
+    }
+  }, [])
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -168,10 +189,8 @@ function App() {
       <div className="container">
         <CurrentUserContext.Provider value={currentUser}>
           <CardsContext.Provider value={cards}>
-            <Header />
-
-            <Routes>
-              <Route path="/" element={ loggedIn ? <Navigate to="/main" replace /> : <Navigate to="/sign-in" replace />}/>
+          <Routes>
+            <Route path="/" element={<Navigate to={loggedIn ? "/main" : "/sign-in"} replace />}/>
               <Route path="/main" element={ <ProtectedRoute element={Main}
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -179,10 +198,13 @@ function App() {
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
                 isOpenDeleteCardPopup={handleDeleteCardClick}
-                loggedIn={loggedIn} /> } />
-              <Route path="/sign-up" element={<Register />} />
-              <Route path="/sign-in" element={<Login />} />
-            </Routes>
+                loggedIn={loggedIn}
+                email={email}
+                onLoggin={setLoggedIn}
+                /> } />
+            <Route path="/sign-up" element={<Register />} />
+            <Route path="/sign-in" element={<Login handleLogin={setLoggedIn} setEmail={setEmail} />} />
+          </Routes>
 
             {loggedIn && <Footer />}
 

@@ -1,0 +1,5 @@
+.header__container {
+  align-self: center;
+  display: flex;
+  gap: 24px;
+}

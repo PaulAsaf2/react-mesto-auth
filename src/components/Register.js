@@ -2,6 +2,7 @@ import React from "react";
 import {Link, useNavigate} from 'react-router-dom'
 import useFormAndValidation from "./hooks/useFormAndValidation";
 import * as auth from './Authorization'
+import Header from "./Header";
 
 export default function Register() {
   const { values, handleChange, errors, isValid, setValues, resetForm } =
@@ -9,14 +10,16 @@ export default function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const {password, email} = values;
-    auth.register(password, email)
+    const {email, password} = values;
+    auth.register(email, password)
     .then(() => navigate('/sign-in', {replace: true}));
   }
     
   const navigate = useNavigate();
 
   return (
+    <>
+    <Header link={'Войти'}/>
     <div className="enter">
       <h2 className="enter__heading">Регистрация</h2>
       <form className="form" name="register" noValidate>
@@ -55,10 +58,11 @@ export default function Register() {
       </form>
       <p className="enter__question">
         Уже зарегистрированы?{" "}
-        <a className="enter__question enter__link" href="#">
+        <Link to='/sign-in' className="enter__question enter__link" href="#">
           Войти
-        </a>
+        </Link>
       </p>
     </div>
+    </>
   );
 }

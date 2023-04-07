@@ -1,13 +1,25 @@
 import logoMesto from "../images/logo_Mesto.svg";
 import React from "react";
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 
-function Header() {
+function Header({loggedIn, email, onLoggin, link}) {
+  const navigate = useNavigate();
+  
+  function signOut() {
+    localStorage.removeItem('token');
+    onLoggin(false);
+    navigate('/sign-in', {replace: true});
+  }
+
   return (
     <header className="header">
       <img className="header__logo" src={logoMesto} alt="Логотип Место" />
-      <a className="header__link" href="#">
-        Войти
-      </a>
+      {loggedIn ? (
+        <div className="header__container">
+          <p className="header__email">{email}</p>
+          <button type="button" className="header__link" onClick={signOut}>Выйти</button>
+        </div>
+      ) : (<Link to={link === 'Войти' ? "/sign-in" : "/sign-up"} className="header__enter">{link}</Link>)}
     </header>
   );
 }
