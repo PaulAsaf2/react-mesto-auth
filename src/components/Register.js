@@ -1,20 +1,40 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {Link, useNavigate} from 'react-router-dom'
 import useFormAndValidation from "./hooks/useFormAndValidation";
 import * as auth from './Authorization'
 import Header from "./Header";
 
-export default function Register() {
+export default function Register({onEnter, onHandleAttention}) {
   const { values, handleChange, errors, isValid, setValues, resetForm } =
     useFormAndValidation();
+  const [submitButton, setSubmitButton] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
     const {email, password} = values;
     auth.register(email, password)
-    .then(() => navigate('/sign-in', {replace: true}));
+    .then(() => navigate('/sign-in', {replace: true}))
+    .then(() => {
+      onEnter(true);
+      onHandleAttention(true);
+    })
+    .catch((err) => {
+      onEnter(false);
+      onHandleAttention(true);
+      console.log(err);
+    });
   }
     
+  function handleSubmitButton(e) {
+    if (e) {
+      setSubmitButton(true)
+    }
+  }
+
+  useEffect(() => {
+    setSubmitButton(false)
+  }, [])
+
   const navigate = useNavigate();
 
   return (
@@ -31,6 +51,7 @@ export default function Register() {
           name="email"
           placeholder="Email"
           onInput={handleChange}
+          onChange={handleSubmitButton}
           value={values.email || ""}
         />
         <span className={`form__input-error ${!isValid ? "form__error_visible" : ""}`}>
@@ -46,12 +67,13 @@ export default function Register() {
           name="password"
           placeholder="Пароль"
           onInput={handleChange}
+          onChange={handleSubmitButton}
           value={values.password || ""}
         />
         <span className={`form__input-error ${!isValid ? "form__error_visible" : ""}`}>
           {!isValid ? errors.password : ""}
         </span>
-        <button className={`enter__submit ${!isValid ? 'enter__submit_type_disabled' : ''}`} 
+        <button className={`enter__submit ${!isValid || !submitButton ? 'enter__submit_type_disabled' : ''}`} 
                 type="submit" onClick={handleSubmit}>
           Зарегистрироваться
         </button>

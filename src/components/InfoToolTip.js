@@ -1,17 +1,19 @@
 import React from "react";
 import succes from "../images/succes.svg";
+import error from '../images/error.svg';
 
-function InfoToolTip() {
+function InfoToolTip({isOpen, onClose, enter}) {
+  
   return (
-    <div className="popup">
+    <div className={`popup ${isOpen ? "popup_opened" : ''}`}>
       <div className="popup__container">
         <button
-          // onClick={onClose}
+          onClick={onClose}
           className="popup__close"
           type="button"
         ></button>
-        <img className="enter__iqon" src={succes} />
-        <h2 className="enter__title">Вы успешно зарегистрировались!</h2>
+        <img className="enter__iqon" src={enter ? succes : error} />
+        <h2 className="enter__title">{enter ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте еще раз.'}</h2>
       </div>
     </div>
   );

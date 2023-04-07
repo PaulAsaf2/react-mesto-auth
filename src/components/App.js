@@ -26,10 +26,12 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
+  const [isEnterPopupOpen, setIsEnterPopupOpen] = useState(false);
   const [isCardIdForDelete, setIsCardIdForDelete] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('')
+  const [enter, setEnter] = useState(null);
 
   const navigate = useNavigate();
 
@@ -62,6 +64,9 @@ function App() {
     setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
     setIsCardIdForDelete(cardId);
   }
+  function handleEnterClick() {
+    setIsEnterPopupOpen(!isEnterPopupOpen);
+  }
 
   const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
 
@@ -76,6 +81,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsDeleteCardPopupOpen(false);
     setSelectedCard({ name: "", link: "" });
+    setIsEnterPopupOpen(false);
   };
 
   const isOpen =
@@ -202,13 +208,17 @@ function App() {
                 email={email}
                 onLoggin={setLoggedIn}
                 /> } />
-            <Route path="/sign-up" element={<Register />} />
-            <Route path="/sign-in" element={<Login handleLogin={setLoggedIn} setEmail={setEmail} />} />
+            <Route path="/sign-up" element={<Register onEnter={setEnter} onHandleAttention={setIsEnterPopupOpen} />} />
+            <Route path="/sign-in" element={<Login handleLogin={setLoggedIn} setEmail={setEmail} onEnter={setEnter} onHandleAttention={setIsEnterPopupOpen} />} />
           </Routes>
 
             {loggedIn && <Footer />}
 
-            <InfoToolTip />
+            <InfoToolTip
+              isOpen={isEnterPopupOpen}
+              onClose={closeAllPopups}
+              enter={enter}
+            />
 
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
