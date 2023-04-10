@@ -27,7 +27,6 @@ export default function Header({ loggedIn, email, onLoggin, link }) {
       {matches =>
         matches ? (
           <header className="header">
-
             {
               menuOpen ?
                 <>
@@ -51,10 +50,22 @@ export default function Header({ loggedIn, email, onLoggin, link }) {
                 src={logoMesto}
                 alt="Логотип Место"
               />
-              <MenuButton
-                open={menuOpen}
-                onClick={handleMenuClick}
-              />
+              {
+                loggedIn ? (
+                  <MenuButton
+                    open={menuOpen}
+                    onClick={handleMenuClick}
+                  />
+                ) : (
+                  <Link
+                    to={link === 'Войти' ? "/sign-in" : "/sign-up"}
+                    className="header__enter"
+                  >
+                    {link}
+                  </Link>
+                )
+              }
+
             </div>
           </header>
         ) : (
