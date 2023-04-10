@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "../index.css";
-import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
-import {
-  CurrentUserContext,
-  CardsContext,
-} from "../contexts/CurrentUserContext";
+import { CurrentUserContext, CardsContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
@@ -19,7 +15,6 @@ import InfoToolTip from "./InfoToolTip";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from './Authorization'
-// import { HeaderLayout, HeaderWrapper } from "./HeaderLayout";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -41,10 +36,10 @@ function App() {
       if (token) {
         auth.getContent(token)
           .then((res) => {
-            if(res) {
+            if (res) {
               setEmail(res.data.email)
               setLoggedIn(true);
-              navigate('/main', {replace: true})
+              navigate('/main', { replace: true })
             }
           })
       }
@@ -63,9 +58,6 @@ function App() {
   function handleDeleteCardClick(cardId) {
     setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
     setIsCardIdForDelete(cardId);
-  }
-  function handleEnterClick() {
-    setIsEnterPopupOpen(!isEnterPopupOpen);
   }
 
   const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
@@ -195,22 +187,51 @@ function App() {
       <div className="container">
         <CurrentUserContext.Provider value={currentUser}>
           <CardsContext.Provider value={cards}>
-          <Routes>
-            <Route path="/" element={<Navigate to={loggedIn ? "/main" : "/sign-in"} replace />}/>
-              <Route path="/main" element={ <ProtectedRoute element={Main}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                isOpenDeleteCardPopup={handleDeleteCardClick}
-                loggedIn={loggedIn}
-                email={email}
-                onLoggin={setLoggedIn}
-                /> } />
-            <Route path="/sign-up" element={<Register onEnter={setEnter} onHandleAttention={setIsEnterPopupOpen} />} />
-            <Route path="/sign-in" element={<Login handleLogin={setLoggedIn} setEmail={setEmail} onEnter={setEnter} onHandleAttention={setIsEnterPopupOpen} />} />
-          </Routes>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Navigate to={loggedIn ? "/main" : "/sign-in"} replace />
+                }
+              />
+              <Route
+                path="/main"
+                element={
+                  <ProtectedRoute
+                    element={Main}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    isOpenDeleteCardPopup={handleDeleteCardClick}
+                    loggedIn={loggedIn}
+                    email={email}
+                    onLoggin={setLoggedIn}
+                  />
+                }
+              />
+              <Route
+                path="/sign-up"
+                element={
+                  <Register
+                    onEnter={setEnter}
+                    onHandleAttention={setIsEnterPopupOpen}
+                  />
+                }
+              />
+              <Route
+                path="/sign-in"
+                element={
+                  <Login
+                    handleLogin={setLoggedIn}
+                    setEmail={setEmail}
+                    onEnter={setEnter}
+                    onHandleAttention={setIsEnterPopupOpen}
+                  />
+                }
+              />
+            </Routes>
 
             {loggedIn && <Footer />}
 

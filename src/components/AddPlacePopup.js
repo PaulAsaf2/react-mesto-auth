@@ -11,7 +11,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   }, [isOpen]);
 
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     onAddPlace(values);
   }
 

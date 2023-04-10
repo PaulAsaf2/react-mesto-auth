@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import {
-  CurrentUserContext,
-  CardsContext,
+  CurrentUserContext, CardsContext,
 } from "../contexts/CurrentUserContext.js";
 import Card from "./Card.js";
 import Header from "./Header.js";
@@ -12,7 +11,7 @@ function Main(props) {
 
   return (
     <>
-      <Header 
+      <Header
         loggedIn={props.loggedIn}
         email={props.email}
         onLoggin={props.onLoggin}
