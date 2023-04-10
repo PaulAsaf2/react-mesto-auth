@@ -15,6 +15,7 @@ import InfoToolTip from "./InfoToolTip";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from './Authorization'
+import PageNotFound from "./PageNotFound";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -230,6 +231,10 @@ function App() {
                     onHandleAttention={setIsEnterPopupOpen}
                   />
                 }
+              />
+              <Route
+                path="*"
+                element={<PageNotFound />}
               />
             </Routes>
 

@@ -3,10 +3,6 @@ import React, { useState } from "react";
 import Media from "react-media";
 import { Link, useNavigate } from 'react-router-dom';
 import MenuButton from './MenuButton';
-import "../blocks/menu/__container/menu__container.css"
-import "../blocks/menu/__container_2/header__container_2.css"
-import "../blocks/menu/__container_2/_open/.header__container_2_open.css"
-import "../blocks/header/__email/__open/header__email_open.css"
 
 export default function Header({ loggedIn, email, onLoggin, link }) {
   const navigate = useNavigate();
@@ -43,8 +39,7 @@ export default function Header({ loggedIn, email, onLoggin, link }) {
                 </>
                 : null
             }
-
-            <div className={`header__container_2 ${menuOpen ? 'header__container_2_open' : ''}`}>
+            <div className={`header__container ${menuOpen ? 'header__container_open' : ''}`}>
               <img
                 className="header__logo"
                 src={logoMesto}
@@ -65,7 +60,6 @@ export default function Header({ loggedIn, email, onLoggin, link }) {
                   </Link>
                 )
               }
-
             </div>
           </header>
         ) : (
@@ -102,7 +96,6 @@ export default function Header({ loggedIn, email, onLoggin, link }) {
             }
           </header>
         )
-
       }
     </Media>
   );
