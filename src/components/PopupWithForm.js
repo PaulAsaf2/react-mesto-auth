@@ -21,20 +21,20 @@ function PopupWithForm({
           type="button"
         ></button>
         <h2
-          className={`${
-            name == "delete-card"
-              ? "popup__heading_type_delete"
-              : "popup__heading"
-          }`}
+          className={`${name == "delete-card"
+            ? "popup__heading_type_delete"
+            : "popup__heading"
+            }`}
         >
           {title}
         </h2>
         <form className="form" onSubmit={onSubmit} name={name} noValidate>
           <div className="form__input-container">{children}</div>
           <button
-            className={`form__button ${
-              !validForm ? "form__button_type_disabled" : ""
-            }`}
+            className={`form__button ${!validForm
+              ? "form__button_type_disabled"
+              : ""
+              }`}
             type="submit"
             disabled={validForm ? false : true}
           >

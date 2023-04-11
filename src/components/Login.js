@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useFormAndValidation from "./hooks/useFormAndValidation";
 
 export default function Login({ onLogin }) {
-  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
   const [submitButton, setSubmitButton] = useState(false);
 
   function handleSubmit(e) {

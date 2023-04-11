@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import useFormAndValidation from "./hooks/useFormAndValidation";
 
 export default function Register({ onRegister }) {
-  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
   const [submitButton, setSubmitButton] = useState(false);
 
   function handleSubmit(e) {
