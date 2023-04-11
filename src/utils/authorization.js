@@ -40,5 +40,4 @@ export function getContent(token) {
     }
   })
     .then(checkResponse)
-    .then(data => data);
 }
