@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom'
 import useFormAndValidation from "./hooks/useFormAndValidation";
-import * as auth from './Authorization'
+import * as auth from '../utils/authorization'
 import Header from "./Header";
 
 export default function Register({ onEnter, onHandleAttention }) {

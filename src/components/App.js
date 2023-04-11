@@ -14,7 +14,7 @@ import Register from "./Register";
 import InfoToolTip from "./InfoToolTip";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
-import * as auth from './Authorization'
+import * as auth from '../utils/authorization'
 import PageNotFound from "./PageNotFound";
 
 function App() {
@@ -39,21 +39,7 @@ function App() {
     isDeleteCardPopupOpen ||
     selectedCard.link;
 
-  // сверка токена при входе
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      auth.getContent(token)
-        .then((res) => {
-          if (res) {
-            setEmail(res.data.email)
-            setLoggedIn(true);
-            navigate('/main', { replace: true })
-          }
-        })
-        .catch(err => console.log(err));
-    }
-  }, [])
+
   // ------------------------------
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -105,6 +91,23 @@ function App() {
     }
   }, [isOpen]);
   // ------------------------------
+
+  // сверка токена при входе
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth.getContent(token)
+        .then((res) => {
+          if (res) {
+            setEmail(res.data.email)
+            setLoggedIn(true);
+            navigate('/main', { replace: true })
+          }
+        })
+        .catch(err => console.log(err));
+    }
+  }, [])
+
   // получение с сервера данных пользователя и карточек
   useEffect(() => {
     Promise.all([api.getProfileData(), api.getInitialCards()])
