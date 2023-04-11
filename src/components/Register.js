@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import useFormAndValidation from "./hooks/useFormAndValidation";
-import * as auth from '../utils/authorization'
 import Header from "./Header";
 
-export default function Register({ onEnter, onHandleAttention }) {
-  const { values, handleChange, errors, isValid } = useFormAndValidation();
+export default function Register({ onRegister }) {
+  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
   const [submitButton, setSubmitButton] = useState(false);
-  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
     const { email, password } = values;
-    auth.register(email, password)
-      .then(() => navigate('/sign-in', { replace: true }))
-      .then(() => {
-        onEnter(true);
-        onHandleAttention(true);
-      })
-      .catch((err) => {
-        onEnter(false);
-        onHandleAttention(true);
-        console.log(err);
-      });
+    onRegister(email, password);
   };
 
   function handleSubmitButton(e) {
@@ -33,6 +21,7 @@ export default function Register({ onEnter, onHandleAttention }) {
 
   useEffect(() => {
     setSubmitButton(false);
+    resetForm();
   }, []);
 
   return (

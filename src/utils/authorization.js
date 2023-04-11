@@ -1,18 +1,19 @@
 export const baseUrl = 'https://auth.nomoreparties.co'
 
+function checkResponse(res) {
+  if (res.ok) { return res.json(); }
+  else {
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+}
+
 export function register(email, password) {
   return fetch(`${baseUrl}/signup`, {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ password, email })
   })
-    .then((res) => {
-      if (res.ok) { return res.json(); }
-      else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    })
-    .catch(err => console.log(err));
+    .then(checkResponse)
 }
 
 export function authorize(email, password) {
@@ -21,19 +22,13 @@ export function authorize(email, password) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ password, email })
   })
-    .then((res) => {
-      if (res.ok) { return res.json(); }
-      else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    })
+    .then(checkResponse)
     .then((data) => {
       if (data.token) {
         localStorage.setItem('token', data.token);
         return data;
       }
     })
-    .catch(err => console.log(err));
 }
 
 export function getContent(token) {
@@ -44,11 +39,6 @@ export function getContent(token) {
       "Authorization": `Bearer ${token}`
     }
   })
-    .then((res) => {
-      if (res.ok) { return res.json(); }
-      else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    })
+    .then(checkResponse)
     .then(data => data);
 }

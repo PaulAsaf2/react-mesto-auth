@@ -89,7 +89,6 @@ function App() {
     }
   }, [isOpen]);
   // ------------------------------
-
   // сверка токена при входе
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -97,6 +96,7 @@ function App() {
       auth.getContent(token)
         .then((res) => {
           if (res) {
+            getMainData();
             setEmail(res.data.email)
             setLoggedIn(true);
             navigate('/main', { replace: true })
@@ -106,11 +106,27 @@ function App() {
     }
   }, [])
 
+  // Регистрация уч. записи
+  function handleRegister(email, password) {
+    auth.register(email, password)
+      .then(() => {
+        navigate('/sign-in', { replace: true });
+        setEnter(true);
+        setIsEnterPopupOpen(true);
+      })
+      .catch((err) => {
+        setEnter(false);
+        setIsEnterPopupOpen(true);
+        console.log(err);
+      });
+  }
+
   // вход в уч. запись
   function handleLogin(email, password) {
     auth.authorize(email, password)
       .then((data) => {
         if (data.token) {
+          getMainData();
           setLoggedIn(true);
           setEmail(email);
           navigate('/main', { replace: true });
@@ -131,14 +147,14 @@ function App() {
   }
 
   // получение с сервера данных пользователя и карточек
-  useEffect(() => {
+  function getMainData() {
     Promise.all([api.getProfileData(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
         setCards(cards);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
 
   // изменение данных пользователя
   function handleUpdateUser(userData) {
@@ -230,12 +246,7 @@ function App() {
               />
               <Route
                 path="/sign-up"
-                element={
-                  <Register
-                    onEnter={setEnter}
-                    onHandleAttention={setIsEnterPopupOpen}
-                  />
-                }
+                element={<Register onRegister={handleRegister} />}
               />
               <Route
                 path="/sign-in"
