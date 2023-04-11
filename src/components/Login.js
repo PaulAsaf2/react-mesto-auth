@@ -1,33 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'
 import useFormAndValidation from "./hooks/useFormAndValidation";
-import * as auth from '../utils/authorization'
 import Header from "./Header";
 
-export default function Login({ handleLogin, setEmail, onEnter, onHandleAttention }) {
-  const { values, handleChange, errors, isValid, resetForm } =
-    useFormAndValidation();
+export default function Login({ onLogin }) {
+  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
   const [submitButton, setSubmitButton] = useState(false);
-
-  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
     const { email, password } = values;
-    auth.authorize(email, password)
-      .then((data) => {
-        if (data.token) {
-          resetForm();
-          handleLogin(true);
-          setEmail(email);
-          navigate('/main', { replace: true });
-        }
-      })
-      .catch((err) => {
-        onEnter(false);
-        onHandleAttention(true);
-        console.log(err);
-      });
+    onLogin(email, password);
   }
 
   function handleSubmitButton(e) {
@@ -38,6 +20,7 @@ export default function Login({ handleLogin, setEmail, onEnter, onHandleAttentio
 
   useEffect(() => {
     setSubmitButton(false)
+    resetForm();
   }, [])
 
   return (

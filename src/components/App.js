@@ -38,8 +38,6 @@ function App() {
     isEditAvatarPopupOpen ||
     isDeleteCardPopupOpen ||
     selectedCard.link;
-
-
   // ------------------------------
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -107,6 +105,30 @@ function App() {
         .catch(err => console.log(err));
     }
   }, [])
+
+  // вход в уч. запись
+  function handleLogin(email, password) {
+    auth.authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          setLoggedIn(true);
+          setEmail(email);
+          navigate('/main', { replace: true });
+        }
+      })
+      .catch((err) => {
+        setEnter(false);
+        setIsEnterPopupOpen(true);
+        console.log(err);
+      });
+  }
+
+  // выход их уч. записи
+  function signOut() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    navigate('/sign-in', { replace: true });
+  }
 
   // получение с сервера данных пользователя и карточек
   useEffect(() => {
@@ -202,7 +224,7 @@ function App() {
                     isOpenDeleteCardPopup={handleDeleteCardClick}
                     loggedIn={loggedIn}
                     email={email}
-                    onLoggin={setLoggedIn}
+                    onSignOut={signOut}
                   />
                 }
               />
@@ -217,14 +239,7 @@ function App() {
               />
               <Route
                 path="/sign-in"
-                element={
-                  <Login
-                    handleLogin={setLoggedIn}
-                    setEmail={setEmail}
-                    onEnter={setEnter}
-                    onHandleAttention={setIsEnterPopupOpen}
-                  />
-                }
+                element={<Login onLogin={handleLogin} />}
               />
               <Route
                 path="*"

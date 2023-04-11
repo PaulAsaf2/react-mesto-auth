@@ -1,22 +1,15 @@
 import logoMesto from "../images/logo_Mesto.svg";
 import React, { useState } from "react";
 import Media from "react-media";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MenuButton from './MenuButton';
 
-export default function Header({ loggedIn, email, onLoggin, link }) {
-  const navigate = useNavigate();
+export default function Header({ loggedIn, email, onSignOut, link }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   function handleMenuClick() {
     setMenuOpen(!menuOpen);
   };
-
-  function signOut() {
-    localStorage.removeItem('token');
-    onLoggin(false);
-    navigate('/sign-in', { replace: true });
-  }
 
   return (
     <Media query={{ maxWidth: 500 }}>
@@ -32,7 +25,7 @@ export default function Header({ loggedIn, email, onLoggin, link }) {
                   <button
                     type="button"
                     className="header__link"
-                    onClick={signOut}
+                    onClick={onSignOut}
                   >
                     Выйти
                   </button>
@@ -79,7 +72,7 @@ export default function Header({ loggedIn, email, onLoggin, link }) {
                     <button
                       type="button"
                       className="header__link"
-                      onClick={signOut}
+                      onClick={onSignOut}
                     >
                       Выйти
                     </button>

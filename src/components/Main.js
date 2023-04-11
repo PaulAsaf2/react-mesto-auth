@@ -14,7 +14,7 @@ function Main(props) {
       <Header
         loggedIn={props.loggedIn}
         email={props.email}
-        onLoggin={props.onLoggin}
+        onSignOut={props.onSignOut}
       />
       <main className="content">
         <section className="profile">
