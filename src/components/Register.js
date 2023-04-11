@@ -5,8 +5,7 @@ import * as auth from './Authorization'
 import Header from "./Header";
 
 export default function Register({ onEnter, onHandleAttention }) {
-  const { values, handleChange, errors, isValid } =
-    useFormAndValidation();
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
   const [submitButton, setSubmitButton] = useState(false);
   const navigate = useNavigate();
 

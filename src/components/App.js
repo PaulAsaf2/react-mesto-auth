@@ -26,27 +26,35 @@ function App() {
   const [isCardIdForDelete, setIsCardIdForDelete] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
   const [enter, setEnter] = useState(null);
-
+  const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
   const navigate = useNavigate();
+  const isOpen =
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    isEditAvatarPopupOpen ||
+    isDeleteCardPopupOpen ||
+    selectedCard.link;
 
+  // сверка токена при входе
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        auth.getContent(token)
-          .then((res) => {
-            if (res) {
-              setEmail(res.data.email)
-              setLoggedIn(true);
-              navigate('/main', { replace: true })
-            }
-          })
-      }
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth.getContent(token)
+        .then((res) => {
+          if (res) {
+            setEmail(res.data.email)
+            setLoggedIn(true);
+            navigate('/main', { replace: true })
+          }
+        })
+        .catch(err => console.log(err));
     }
   }, [])
-
+  // ------------------------------
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
@@ -60,14 +68,10 @@ function App() {
     setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
     setIsCardIdForDelete(cardId);
   }
-
-  const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
-
   const handleCardClick = (card) => {
     setSelectedCard(card);
   };
-
-  // закрытие попапов
+  // ------------------------------
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -76,15 +80,7 @@ function App() {
     setSelectedCard({ name: "", link: "" });
     setIsEnterPopupOpen(false);
   };
-
-  const isOpen =
-    isEditProfilePopupOpen ||
-    isAddPlacePopupOpen ||
-    isEditAvatarPopupOpen ||
-    isDeleteCardPopupOpen ||
-    selectedCard.link;
-
-  // закрытие по клику вне формы
+  // ------------------------------
   useEffect(() => {
     function closeByClickOutside(evt) {
       evt.target === evt.currentTarget && closeAllPopups();
@@ -97,7 +93,6 @@ function App() {
     }
   }, [isOpen]);
 
-  // закрытие по клавише Escape
   useEffect(() => {
     function closeByEscape(evt) {
       evt.key === "Escape" && closeAllPopups();
@@ -109,7 +104,7 @@ function App() {
       };
     }
   }, [isOpen]);
-
+  // ------------------------------
   // получение с сервера данных пользователя и карточек
   useEffect(() => {
     Promise.all([api.getProfileData(), api.getInitialCards()])
@@ -121,8 +116,6 @@ function App() {
   }, []);
 
   // изменение данных пользователя
-  const [currentUser, setCurrentUser] = useState({});
-
   function handleUpdateUser(userData) {
     setIsLoading(true);
     api
@@ -143,8 +136,6 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
-
-  const [cards, setCards] = useState([]);
 
   // добавление карточки
   function handleAddPlaceSubmit(cardData) {
