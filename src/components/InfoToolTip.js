@@ -2,7 +2,7 @@ import React from "react";
 import succes from "../images/succes.svg";
 import error from '../images/error.svg';
 
-function InfoToolTip({ isOpen, onClose, enter }) {
+function InfoToolTip({ isOpen, onClose, enter, attention }) {
 
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ''}`}>
@@ -16,15 +16,7 @@ function InfoToolTip({ isOpen, onClose, enter }) {
           className="enter__iqon"
           src={enter ? succes : error}
         />
-        <h2
-          className="enter__title"
-        >
-          {
-            enter
-              ? 'Вы успешно зарегистрировались!'
-              : 'Что-то пошло не так! Попробуйте еще раз.'
-          }
-        </h2>
+        <h2 className="enter__title">{attention}</h2>
       </div>
     </div>
   );

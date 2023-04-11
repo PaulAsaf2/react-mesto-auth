@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom'
 import useFormAndValidation from "./hooks/useFormAndValidation";
-import Header from "./Header";
 
 export default function Register({ onRegister }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
@@ -14,19 +13,11 @@ export default function Register({ onRegister }) {
   };
 
   function handleSubmitButton(e) {
-    if (e) {
-      setSubmitButton(true);
-    }
-  };
-
-  useEffect(() => {
-    setSubmitButton(false);
-    resetForm();
-  }, []);
+    e && setSubmitButton(true)
+  }
 
   return (
     <>
-      <Header link={'Войти'} />
       <div className="enter">
         <h2 className="enter__heading">Регистрация</h2>
         <form

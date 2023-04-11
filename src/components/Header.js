@@ -1,11 +1,12 @@
 import logoMesto from "../images/logo_Mesto.svg";
 import React, { useState } from "react";
 import Media from "react-media";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MenuButton from './MenuButton';
 
-export default function Header({ loggedIn, email, onSignOut, link }) {
+export default function Header({ loggedIn, email, onSignOut }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname } = useLocation();
 
   function handleMenuClick() {
     setMenuOpen(!menuOpen);
@@ -45,12 +46,10 @@ export default function Header({ loggedIn, email, onSignOut, link }) {
                     onClick={handleMenuClick}
                   />
                 ) : (
-                  <Link
-                    to={link === 'Войти' ? "/sign-in" : "/sign-up"}
-                    className="header__enter"
-                  >
-                    {link}
-                  </Link>
+                  <>
+                    {pathname === "/sign-in" && <Link to="/sign-up" className="header__enter">Регистрация</Link>}
+                    {pathname === "/sign-up" && <Link to="/sign-in" className="header__enter">Войти</Link>}
+                  </>
                 )
               }
             </div>
@@ -79,12 +78,10 @@ export default function Header({ loggedIn, email, onSignOut, link }) {
                   </div>
                 )
                 : (
-                  <Link
-                    to={link === 'Войти' ? "/sign-in" : "/sign-up"}
-                    className="header__enter"
-                  >
-                    {link}
-                  </Link>
+                  <>
+                    {pathname === "/sign-in" && <Link to="/sign-up" className="header__enter">Регистрация</Link>}
+                    {pathname === "/sign-up" && <Link to="/sign-in" className="header__enter">Войти</Link>}
+                  </>
                 )
             }
           </header>

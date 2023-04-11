@@ -3,7 +3,6 @@ import {
   CurrentUserContext, CardsContext,
 } from "../contexts/CurrentUserContext.js";
 import Card from "./Card.js";
-import Header from "./Header.js";
 
 function Main(props) {
   const user = useContext(CurrentUserContext);
@@ -11,11 +10,6 @@ function Main(props) {
 
   return (
     <>
-      <Header
-        loggedIn={props.loggedIn}
-        email={props.email}
-        onSignOut={props.onSignOut}
-      />
       <main className="content">
         <section className="profile">
           <img

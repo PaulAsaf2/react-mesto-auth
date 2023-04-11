@@ -16,6 +16,7 @@ import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from '../utils/authorization'
 import PageNotFound from "./PageNotFound";
+import Header from "./Header";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -31,6 +32,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [attention, setAttention] = useState('');
   const navigate = useNavigate();
   const isOpen =
     isEditProfilePopupOpen ||
@@ -38,6 +40,10 @@ function App() {
     isEditAvatarPopupOpen ||
     isDeleteCardPopupOpen ||
     selectedCard.link;
+  const attentionMessage = {
+    succes: 'Вы успешно зарегистрировались!',
+    error: 'Что-то пошло не так! Попробуйте еще раз.',
+  }
   // ------------------------------
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -111,10 +117,12 @@ function App() {
     auth.register(email, password)
       .then(() => {
         navigate('/sign-in', { replace: true });
+        setAttention(attentionMessage.succes);
         setEnter(true);
         setIsEnterPopupOpen(true);
       })
       .catch((err) => {
+        setAttention(attentionMessage.error)
         setEnter(false);
         setIsEnterPopupOpen(true);
         console.log(err);
@@ -133,13 +141,14 @@ function App() {
         }
       })
       .catch((err) => {
+        setAttention(attentionMessage.error)
         setEnter(false);
         setIsEnterPopupOpen(true);
         console.log(err);
       });
   }
 
-  // выход их уч. записи
+  // выход из уч. записи
   function signOut() {
     localStorage.removeItem('token');
     setLoggedIn(false);
@@ -220,6 +229,11 @@ function App() {
       <div className="container">
         <CurrentUserContext.Provider value={currentUser}>
           <CardsContext.Provider value={cards}>
+            <Header
+              loggedIn={loggedIn}
+              email={email}
+              onSignOut={signOut}
+            />
             <Routes>
               <Route
                 path="/"
@@ -239,8 +253,6 @@ function App() {
                     onCardLike={handleCardLike}
                     isOpenDeleteCardPopup={handleDeleteCardClick}
                     loggedIn={loggedIn}
-                    email={email}
-                    onSignOut={signOut}
                   />
                 }
               />
@@ -264,6 +276,7 @@ function App() {
               isOpen={isEnterPopupOpen}
               onClose={closeAllPopups}
               enter={enter}
+              attention={attention}
             />
 
             <EditProfilePopup

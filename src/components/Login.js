@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useFormAndValidation from "./hooks/useFormAndValidation";
-import Header from "./Header";
 
 export default function Login({ onLogin }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
@@ -13,19 +12,11 @@ export default function Login({ onLogin }) {
   }
 
   function handleSubmitButton(e) {
-    if (e) {
-      setSubmitButton(true)
-    }
+    e && setSubmitButton(true)
   }
-
-  useEffect(() => {
-    setSubmitButton(false)
-    resetForm();
-  }, [])
 
   return (
     <>
-      <Header link={'Регистрация'} />
       <div className="enter">
         <h2 className="enter__heading">Вход</h2>
         <form
