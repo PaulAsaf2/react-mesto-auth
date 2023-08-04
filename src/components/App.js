@@ -224,11 +224,6 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  const redirectToSignIn = () => {
-    navigate('/sign-in', { replace: true });
-    return null;
-  };
-
   return (
     <div className="root">
       <div className="container">
@@ -240,10 +235,6 @@ function App() {
               onSignOut={signOut}
             />
             <Routes>
-              <Route
-                path="/react-mesto-auth"
-                element={redirectToSignIn}
-              />
               <Route
                 path="/"
                 element={
