@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useNavigate, Redirect } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "../index.css";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -224,6 +224,11 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  const redirectToSignIn = () => {
+    navigate('/sign-in', { replace: true });
+    return null;
+  };
+
   return (
     <div className="root">
       <div className="container">
@@ -237,7 +242,7 @@ function App() {
             <Routes>
               <Route
                 path="/react-mesto-auth"
-                element={<Redirect to="sign-in" />}
+                element={redirectToSignIn}
               />
               <Route
                 path="/"
