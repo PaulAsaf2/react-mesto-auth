@@ -105,7 +105,7 @@ function App() {
             getMainData();
             setEmail(res.data.email)
             setLoggedIn(true);
-            navigate('/main', { replace: true })
+            navigate('/react-mesto-auth', { replace: true })
           }
         })
         .catch(err => console.log(err));
@@ -137,7 +137,7 @@ function App() {
           getMainData();
           setLoggedIn(true);
           setEmail(email);
-          navigate('/main', { replace: true });
+          navigate('/react-mesto-auth', { replace: true });
         }
       })
       .catch((err) => {

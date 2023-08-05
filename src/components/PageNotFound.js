@@ -12,7 +12,7 @@ export default function PageNotFound() {
       <p className="not-found__text">
         Кажется, это место ещё не известно...
       </p>
-      <Link className="header__enter" to="/main">На главную</Link>
+      <Link className="header__enter" to="/react-mesto-auth">На главную</Link>
       <p style={{
         color: 'grey',
         fontSize: 14,
